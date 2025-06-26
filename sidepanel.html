@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube Chatbot</title>
+    <link href="libs/bootstrap.min.css" rel="stylesheet">
+    <link href="libs/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="sidepanel.css">
+    <!-- Mermaid library for diagram rendering -->
+    <script src="libs/mermaid.min.js"></script>
+    <!-- jsPDF removed due to CSP restrictions - alternative solutions implemented in JS -->
+</head>
+<body>
+    <div class="container">
+        <!-- Main Selection Screen -->
+        <div id="selectionSection" class="section landing-section">
+            <div class="landing-container">
+                <!-- Header -->
+                <div class="landing-header">
+                    <div class="brand-section">
+                        <div class="brand-icon">
+                            <i class="bi bi-robot"></i>
+                        </div>
+                        <div class="brand-info">
+                            <h1 class="brand-title">MediaMind</h1>
+                            <p class="brand-subtitle">Analyze videos and blogs with advanced AI technology</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Global Controls -->
+                    <div class="global-controls">
+                        <button id="global-theme-toggle" class="btn-icon" title="Toggle Theme" aria-label="Toggle dark/light theme">
+                            <i class="bi bi-sun-fill"></i>
+                        </button>
+                        <button id="global-refresh-button" class="btn-icon" title="Reset Application" aria-label="Reset application">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                        <button id="global-settings-toggle" class="btn-icon" title="Settings" aria-label="Open settings">
+                            <i class="bi bi-gear-fill"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feature Showcase -->
+                <div class="feature-showcase">
+                    <div class="showcase-grid">
+                        <div class="showcase-item">
+                            <i class="bi bi-chat-dots-fill"></i>
+                            <span>AI Chat</span>
+                        </div>
+                        <div class="showcase-item">
+                            <i class="bi bi-diagram-3-fill"></i>
+                            <span>Mind Maps</span>
+                        </div>
+                        <div class="showcase-item">
+                            <i class="bi bi-question-circle-fill"></i>
+                            <span>Smart Quiz</span>
+                        </div>
+                        <div class="showcase-item">
+                            <i class="bi bi-lightning-charge-fill"></i>
+                            <span>Instant Analysis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Options -->
+                <div class="landing-options">
+                    <div class="option-card modern" id="videoMindOption" role="button" tabindex="0" aria-label="Start VideoMind for YouTube video analysis">
+                        <div class="option-body">
+                            <div class="option-icon videomind">
+                                <i class="bi bi-play-fill"></i>
+                            </div>
+                            <div class="option-content">
+                                <div class="option-title-row">
+                                    <h2>VideoMind</h2>
+                                    <div class="option-badge">Popular</div>
+                                </div>
+                                <p>Chat with YouTube videos using AI</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card modern" id="blogQueryOption" role="button" tabindex="0" aria-label="Start BlogQuery for blog content analysis">
+                        <div class="option-body">
+                            <div class="option-icon blogquery">
+                                <i class="bi bi-journal-text"></i>
+                            </div>
+                            <div class="option-content">
+                                <div class="option-title-row">
+                                    <h2>BlogQuery</h2>
+                                    <div class="option-badge new">New</div>
+                                </div>
+                                <p>Analyze and chat with blog content using AI</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Info -->
+                <div class="landing-footer">
+                    <div class="footer-stats">
+                        <div class="stat-item">
+                            <i class="bi bi-shield-check"></i>
+                            <span>Privacy First</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="bi bi-lightning"></i>
+                            <span>Fast Processing</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="bi bi-cpu"></i>
+                            <span>AI Powered</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VideoMind Section -->
+        <div id="videoMindSection" class="section">
+            <!-- Header -->
+            <div class="youtube-header">
+                <div class="youtube-logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M23.5 6.2C23.2 5.1 22.4 4.3 21.3 4C19.5 3.5 12 3.5 12 3.5C12 3.5 4.5 3.5 2.7 4C1.6 4.3 0.8 5.1 0.5 6.2C0 8 0 12 0 12C0 12 0 16 0.5 17.8C0.8 18.9 1.6 19.7 2.7 20C4.5 20.5 12 20.5 12 20.5C12 20.5 19.5 20.5 21.3 20C22.4 19.7 23.2 18.9 23.5 17.8C24 16 24 12 24 12C24 12 24 8 23.5 6.2Z" fill="#FF0000"/>
+                        <path d="M9.6 15.6V8.4L15.8 12L9.6 15.6Z" fill="white"/>
+                    </svg>
+                    <span>YouTube Assistant</span>
+                </div>
+
+                <div class="controls">
+                    <button id="theme-toggle" class="btn-icon" title="Toggle Theme">
+                        <i class="bi bi-sun-fill"></i>
+                    </button>
+                    <button id="refresh-button" class="btn-icon" title="Start New Chat">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                    <button id="settings-toggle" class="btn-icon" title="Settings">
+                        <i class="bi bi-gear-fill"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+            <!-- Video Input Container -->
+                <div id="video-input-container" class="video-input-section">
+                    <div class="input-section-card">
+                        <form id="video-form" class="video-form" role="form" aria-labelledby="video-form-heading">
+                            <div class="form-header">
+                                <div class="form-icon">
+                                    <i class="bi bi-youtube text-danger"></i>
+                                </div>
+                                <div class="form-title-group">
+                                    <h3 id="video-form-heading" class="form-heading">Add YouTube Video</h3>
+                                    <p class="form-description">Enter a YouTube video URL or video ID to start chatting with the video content</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-body">
+                                <div class="input-group-container">
+                                    <label for="video-id" class="form-label">
+                                        <i class="bi bi-link-45deg me-1"></i>
+                                        YouTube Video URL or ID
+                                        <span class="label-required">*</span>
+                                    </label>
+                                    
+                                    <div class="input-wrapper">
+                                        <div class="input-with-validation">
+                                            <div class="input-prefix">
+                                                <i class="bi bi-globe"></i>
+                                            </div>
+                                            <input 
+                                                type="text" 
+                                                class="form-control enhanced" 
+                                                id="video-id" 
+                                                name="video-id"
+                                                placeholder="https://youtube.com/watch?v=... or video ID"
+                                                aria-describedby="video-id-help video-id-error"
+                                                autocomplete="off"
+                                                spellcheck="false"
+                                            >
+                                            <div class="input-validation-icon">
+                                                <i class="bi bi-check-circle-fill text-success d-none" id="video-id-valid"></i>
+                                                <i class="bi bi-x-circle-fill text-danger d-none" id="video-id-invalid"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="input-suggestions">
+                                            <div class="suggestion-item" data-format="full">
+                                                <i class="bi bi-link"></i>
+                                                <span>Full URL</span>
+                                                <small>https://youtube.com/watch?v=...</small>
+                                            </div>
+                                            <div class="suggestion-item" data-format="short">
+                                                <i class="bi bi-link-45deg"></i>
+                                                <span>Short URL</span>
+                                                <small>https://youtu.be/...</small>
+                                            </div>
+                                            <div class="suggestion-item" data-format="id">
+                                                <i class="bi bi-hash"></i>
+                                                <span>Video ID</span>
+                                                <small>dQw4w9WgXcQ</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="video-id-help" class="form-help">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        Supported formats: Full URL, Short URL (youtu.be), or Video ID
+                                    </div>
+                                    <div id="video-id-error" class="form-error d-none" role="alert">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>
+                                        <span class="error-message">Please enter a valid YouTube URL or video ID</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-footer">
+                                <button 
+                                    type="submit" 
+                                    id="process-button" 
+                                    class="btn btn-primary btn-process enhanced"
+                                    aria-describedby="process-button-help"
+                                >
+                                    <span class="btn-content">
+                                        <i class="bi bi-play-circle me-2"></i>
+                                        Process Video
+                                    </span>
+                                    <span class="btn-loading d-none">
+                                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                        Processing...
+                                    </span>
+                                </button>
+                                <div id="process-button-help" class="form-help-footer">
+                                    <i class="bi bi-shield-check me-1"></i>
+                                    This will analyze the video content and prepare it for AI chat
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Tabbed Interface -->
+                <div id="tabbed-interface" class="tabbed-interface" style="display: none;">
+                    <!-- Tab Headers -->
+                    <div class="tab-headers">
+                        <div class="tab-nav">
+                            <button class="tab-header active" data-tab="ai-chat" role="tab" aria-selected="true" aria-controls="ai-chat-tab">
+                                <div class="tab-icon">
+                                    <i class="bi bi-chat-dots"></i>
+                                </div>
+                                <div class="tab-content">
+                                    <span class="tab-title">AI Chat</span>
+                                    <span class="tab-description">Interactive conversation</span>
+                                </div>
+                                <div class="tab-indicator"></div>
+                            </button>
+                            <button class="tab-header" data-tab="mindmap" role="tab" aria-selected="false" aria-controls="mindmap-tab">
+                                <div class="tab-icon">
+                                    <i class="bi bi-diagram-3"></i>
+                                </div>
+                                <div class="tab-content">
+                                    <span class="tab-title">Mindmap</span>
+                                    <span class="tab-description">Visual overview</span>
+                                </div>
+                                <div class="tab-indicator"></div>
+                            </button>
+                            <button class="tab-header" data-tab="quiz" role="tab" aria-selected="false" aria-controls="quiz-tab">
+                                <div class="tab-icon">
+                                    <i class="bi bi-question-circle"></i>
+                                </div>
+                                <div class="tab-content">
+                                    <span class="tab-title">Quiz</span>
+                                    <span class="tab-description">Test knowledge</span>
+                                </div>
+                                <div class="tab-indicator"></div>
+                            </button>
+                        </div>
+                        <div class="tab-controls">
+                            <button class="tab-control-btn" id="expand-tabs" title="Expand all tabs" aria-label="Expand all tabs">
+                                <i class="bi bi-arrows-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content">
+                        <!-- AI Chat Tab -->
+                        <div id="ai-chat-tab" class="tab-pane active" role="tabpanel" aria-labelledby="ai-chat-header">
+                            <!-- Transcript Status Indicator -->
+                            <div id="transcript-status" class="transcript-status enhanced">
+                                <div class="status-indicator">
+                                    <i class="bi bi-file-text"></i>
+                                    <div class="status-pulse"></div>
+                                </div>
+                                <div class="status-content">
+                                    <span class="status-text">Transcript Available</span>
+                                    <span class="status-details">Ready for AI analysis</span>
+                                </div>
+                                <div class="status-actions">
+                                    <button class="status-action-btn" title="View transcript details">
+                                        <i class="bi bi-info-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Chat Welcome Message -->
+                            <div id="chat-welcome" class="chat-welcome">
+                                <div class="welcome-content">
+                                    <div class="welcome-icon">
+                                        <i class="bi bi-robot"></i>
+                                    </div>
+                                    <h4>AI Assistant Ready</h4>
+                                    <p>I've analyzed the video content and I'm ready to answer your questions. Try asking about:</p>
+                                    <div class="suggestion-chips">
+                                        <button class="suggestion-chip" data-question="What is this video about?">
+                                            <i class="bi bi-play-circle"></i>
+                                            What is this video about?
+                                        </button>
+                                        <button class="suggestion-chip" data-question="Summarize the main points">
+                                            <i class="bi bi-list-ul"></i>
+                                            Summarize main points
+                                        </button>
+                                        <button class="suggestion-chip" data-question="What are the key takeaways?">
+                                            <i class="bi bi-key"></i>
+                                            Key takeaways
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Chat Container -->
+                            <div id="chat-container" class="chat-container enhanced">
+                                <!-- Messages will be appended here -->
+                            </div>
+
+                            <!-- Chat Input Container -->
+                            <div id="chat-input-container" class="chat-input-enhanced">
+                                <div class="chat-input-wrapper">
+                                    <div class="input-group enhanced">
+                                        <div class="input-prefix">
+                                            <i class="bi bi-chat-dots"></i>
+                                        </div>
+                                        <input type="text" id="question-input" class="form-control chat-input" placeholder="Ask a question about the video..." disabled maxlength="500">
+                                        <div class="input-actions">
+                                            <button id="voice-input-btn" class="input-action-btn" title="Voice input" disabled>
+                                                <i class="bi bi-mic"></i>
+                                            </button>
+                                            <button id="send-button" class="btn btn-primary send-btn" disabled>
+                                                <i class="bi bi-send-fill"></i>
+                                                <span class="btn-text">Send</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="input-footer">
+                                        <div class="character-count">
+                                            <span id="char-count">0</span>/500
+                                        </div>
+                                        <div class="input-help">
+                                            <i class="bi bi-lightbulb"></i>
+                                            Press Enter to send, Shift+Enter for new line
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mindmap Tab -->
+                        <div id="mindmap-tab" class="tab-pane">
+                            <div class="mindmap-container">
+                                <!-- Mindmap Generation Section -->
+                                <div id="mindmap-generation" class="mindmap-section">
+                                    <div class="mindmap-header">
+                                        <h4><i class="bi bi-diagram-3 me-2"></i>Video Mindmap</h4>
+                                        <p>Generate a visual mindmap of the video content</p>
+                                    </div>
+                                    
+                                    <div id="mindmap-no-transcript" class="no-transcript-message" style="display: none;">
+                                        <div class="alert alert-warning">
+                                            <i class="bi bi-exclamation-triangle me-2"></i>
+                                            <strong>No Transcript Available</strong>
+                                            <p class="mb-0 mt-2">Sorry, this video doesn't have a transcript available. Mindmap generation requires video transcript data to create a meaningful visualization.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="mindmap-available" class="mindmap-available" style="display: none;">
+                                        <button id="generate-mindmap" class="btn btn-primary mindmap-btn">
+                                            <i class="bi bi-diagram-3 me-2"></i>
+                                            Generate Mindmap
+                                            <span class="btn-loading d-none">
+                                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                Generating...
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Mindmap Display Section -->
+                                <div id="mindmap-display" class="mindmap-display" style="display: none;">
+                                    <div class="mindmap-actions">
+                                        <button id="regenerate-mindmap" class="btn btn-outline-primary">
+                                            <i class="bi bi-arrow-clockwise me-1"></i>
+                                            Regenerate
+                                        </button>
+                                        <button id="download-mindmap" class="btn btn-outline-success">
+                                            <i class="bi bi-download me-1"></i>
+                                            Download
+                                        </button>
+                                    </div>
+                                    <div id="mindmap-content" class="mindmap-content">
+                                        <!-- Mindmap will be rendered here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quiz Tab -->
+                        <div id="quiz-tab" class="tab-pane">
+                            <div class="quiz-container">
+                                <!-- Quiz Generation Section -->
+                                <div id="quiz-generation" class="quiz-section">
+                                    <div class="quiz-header">
+                                        <h4><i class="bi bi-question-circle me-2"></i>Video Quiz</h4>
+                                        <p>Test your understanding with questions based on the video content</p>
+                                    </div>
+                                    
+                                    <div id="quiz-no-transcript" class="no-transcript-message" style="display: none;">
+                                        <div class="alert alert-info">
+                                            <i class="bi bi-lightbulb me-2"></i>
+                                            <strong>No Transcript Available</strong>
+                                            <p class="mb-3 mt-2">This video doesn't have a transcript, but you can still generate a quiz! Enter any topic below and I'll create quiz questions for you.</p>
+                                            
+                                            <div class="custom-quiz-section">
+                                                <div class="mb-3">
+                                                    <label for="custom-quiz-topic" class="form-label">
+                                                        <i class="bi bi-chat-text me-1"></i>
+                                                        Enter Quiz Topic
+                                                    </label>
+                                                    <input type="text" id="custom-quiz-topic" class="form-control" 
+                                                           placeholder="e.g., JavaScript programming, World War 2, Machine Learning basics..." 
+                                                           maxlength="200">
+                                                    <div class="form-text">
+                                                        <i class="bi bi-info-circle me-1"></i>
+                                                        Be specific for better questions (e.g., "React.js hooks" vs "programming")
+                                                    </div>
+                                                </div>
+                                                <button id="generate-custom-quiz" class="btn btn-primary quiz-btn" disabled>
+                                                    <i class="bi bi-question-circle me-2"></i>
+                                                    Generate Custom Quiz
+                                                    <span class="btn-loading d-none">
+                                                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                        Generating...
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="quiz-available" class="quiz-available" style="display: none;">
+                                        <button id="generate-quiz" class="btn btn-primary quiz-btn">
+                                            <i class="bi bi-question-circle me-2"></i>
+                                            Generate Quiz
+                                            <span class="btn-loading d-none">
+                                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                Generating...
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Quiz Display Section -->
+                                <div id="quiz-display" class="quiz-display" style="display: none;">
+                                    <div class="quiz-info">
+                                        <h5>Quiz: 10 Questions</h5>
+                                        <p class="quiz-instructions">Select the best answer for each question. Your score will be calculated automatically.</p>
+                                    </div>
+                                    
+                                    <form id="quiz-form" class="quiz-form">
+                                        <div id="quiz-questions" class="quiz-questions">
+                                            <!-- Questions will be populated here -->
+                                        </div>
+                                        
+                                        <div class="quiz-actions">
+                                            <button type="submit" id="submit-quiz" class="btn btn-success quiz-submit-btn">
+                                                <i class="bi bi-check-circle me-2"></i>
+                                                Submit Quiz
+                                            </button>
+                                            <button type="button" id="retake-quiz" class="btn btn-outline-primary" style="display: none;">
+                                                <i class="bi bi-arrow-clockwise me-1"></i>
+                                                Retake Quiz
+                                            </button>
+                                            <button type="button" id="new-quiz" class="btn btn-outline-secondary" style="display: none;">
+                                                <i class="bi bi-plus-circle me-1"></i>
+                                                New Quiz
+                                            </button>
+                                        </div>
+                                    </form>
+                                    
+                                    <!-- Quiz Results -->
+                                    <div id="quiz-results" class="quiz-results" style="display: none;">
+                                        <div class="results-header">
+                                            <h5><i class="bi bi-trophy me-2"></i>Quiz Results</h5>
+                                        </div>
+                                        <div class="score-display">
+                                            <div class="score-circle">
+                                                <span id="score-percentage">0%</span>
+                                                <small id="score-fraction">0/10</small>
+                                            </div>
+                                            <div class="score-message">
+                                                <h6 id="score-title">Great Job!</h6>
+                                                <p id="score-description">You've completed the quiz.</p>
+                                            </div>
+                                        </div>
+                                        <div id="detailed-results" class="detailed-results">
+                                            <!-- Detailed results will be shown here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div id="footer" class="footer enhanced">
+                    <div class="footer-content">
+                        <div class="footer-status">
+                            <div class="status-indicator-group">
+                                <div class="status-dot active"></div>
+                                <span id="footer-mode-status" class="footer-mode">
+                                    <i class="bi bi-robot"></i>
+                                    AI Assistant Active
+                                </span>
+                            </div>
+                            <div class="footer-stats">
+                                <span class="stat-item">
+                                    <i class="bi bi-clock"></i>
+                                    <span id="session-time">00:00</span>
+                                </span>
+                                <span class="stat-item">
+                                    <i class="bi bi-chat-dots"></i>
+                                    <span id="message-count">0</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="footer-info">
+                            <span class="footer-copyright">
+                                <i class="bi bi-heart-fill text-danger"></i>
+                                Built by Abhit Pandey © 2025
+                            </span>
+                            <div class="footer-links">
+                                <a href="#" class="footer-link" title="Privacy Policy">
+                                    <i class="bi bi-shield-check"></i>
+                                </a>
+                                <a href="#" class="footer-link" title="Help & Support">
+                                    <i class="bi bi-question-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Container -->
+            <div id="notification-container">
+                <div class="alert alert-dismissible fade show" role="alert">
+                    <span class="message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- BlogQuery Section -->
+        <div id="blogQuerySection" class="section">
+            <!-- Header -->
+            <div class="blog-header">
+                <div class="blog-logo">
+                    <i class="bi bi-journal-text text-primary" style="font-size: 24px;"></i>
+                    <span>Blog Assistant</span>
+                </div>
+
+                <div class="controls">
+                    <button id="theme-toggle-blog" class="btn-icon" title="Toggle Theme">
+                        <i class="bi bi-sun-fill"></i>
+                    </button>
+                    <button id="refresh-button-blog" class="btn-icon" title="Start New Chat">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                    <button id="settings-toggle-blog" class="btn-icon" title="Settings">
+                        <i class="bi bi-gear-fill"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <!-- Blog Input Container -->
+                <div id="blog-input-container" class="blog-input-section">
+                    <form id="blog-form" class="blog-form" role="form" aria-labelledby="blog-form-heading">
+                        <div class="form-group">
+                            <h3 id="blog-form-heading" class="form-heading">
+                                <i class="bi bi-link-45deg text-primary me-2"></i>
+                                Add Blog Article
+                            </h3>
+                            <p class="form-description">
+                                Enter a blog article URL to start chatting with the blog content
+                            </p>
+                        </div>
+                        
+                        <div class="input-group-container">
+                            <label for="blog-url" class="form-label">
+                                <i class="bi bi-globe me-1">  Blog Article URL</i>
+                            </label>
+                            <div class="input-with-validation">
+                                <input 
+                                    type="url" 
+                                    class="form-control" 
+                                    id="blog-url" 
+                                    name="blog-url"
+                                    placeholder="https://example.com/blog-article"
+                                    aria-describedby="blog-url-help blog-url-error"
+                                    autocomplete="off"
+                                    spellcheck="false"
+                                >
+                                <div class="input-validation-icon">
+                                    <i class="bi bi-check-circle-fill text-success d-none" id="blog-url-valid"></i>
+                                    <i class="bi bi-x-circle-fill text-danger d-none" id="blog-url-invalid"></i>
+                                </div>
+                            </div>
+                            <div id="blog-url-help" class="form-help">
+                                <i class="bi bi-info-circle me-1"></i>
+                                Supported: Medium, Dev.to, personal blogs, news articles, and most web content
+                            </div>
+                            <div id="blog-url-error" class="form-error d-none" role="alert">
+                                <i class="bi bi-exclamation-triangle me-1"></i>
+                                <span class="error-message">Please enter a valid blog article URL</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button 
+                                type="submit" 
+                                id="process-blog-button" 
+                                class="btn btn-primary btn-process"
+                                aria-describedby="process-blog-button-help"
+                            >
+                                <i class="bi bi-file-text me-2"></i>
+                                Process Blog
+                                <span class="btn-loading d-none">
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    Processing...
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tabbed Interface -->
+                <div id="blog-tabbed-interface" class="tabbed-interface" style="display: none;">
+                    <!-- Tab Headers -->
+                    <div class="tab-headers">
+                        <button class="tab-header active" data-tab="blog-ai-chat">
+                            <i class="bi bi-chat-dots"></i>
+                            AI Chat
+                        </button>
+                        <button class="tab-header" data-tab="blog-mindmap">
+                            <i class="bi bi-diagram-3"></i>
+                            Mindmap
+                        </button>
+                        <button class="tab-header" data-tab="blog-quiz">
+                            <i class="bi bi-question-circle"></i>
+                            Quiz
+                        </button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content">
+                        <!-- AI Chat Tab -->
+                        <div id="blog-ai-chat-tab" class="tab-pane active">
+                            <!-- Content Status Indicator -->
+                            <div id="blog-content-status" class="transcript-status">
+                                <i class="bi bi-file-text"></i>
+                                <span class="status-text">Blog Content Available</span>
+                            </div>
+                            
+                            <!-- Chat Container -->
+                            <div id="blog-chat-container">
+                                <!-- Messages will be appended here -->
+                            </div>
+                            
+                            <!-- Chat Input -->
+                            <div class="input-group">
+                                <input type="text" id="blog-question-input" class="form-control" placeholder="Ask a question about the blog..." disabled>
+                                <button id="blog-send-button" class="btn btn-primary" disabled>
+                                    <i class="bi bi-send-fill"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mindmap Tab -->
+                        <div id="blog-mindmap-tab" class="tab-pane">
+                            <!-- Mindmap Generation Header -->
+                            <div class="mindmap-header">
+                                <h4><i class="bi bi-diagram-3 me-2"></i>Blog Mindmap</h4>
+                                <p>Generate a visual mindmap of the blog content</p>
+                            </div>
+                            
+                            <!-- No Content Message -->
+                            <div id="blog-mindmap-no-content" class="no-transcript-message" style="display: none;">
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    <strong>No Content Available</strong>
+                                    <p class="mb-0 mt-2">Sorry, this blog doesn't have content available. Mindmap generation requires blog content data to create a meaningful visualization.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Generate Button -->
+                            <div id="blog-mindmap-available" class="mindmap-available" style="display: none;">
+                                <button id="generate-blog-mindmap" class="btn btn-primary mindmap-btn">
+                                    <i class="bi bi-diagram-3 me-2"></i>
+                                    Generate Mindmap
+                                    <span class="btn-loading d-none">
+                                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                        Generating...
+                                    </span>
+                                </button>
+                            </div>
+                            
+                            <!-- Mindmap Content -->
+                            <div id="blog-mindmap-content" class="mindmap-content" style="display: none;">
+                                <!-- Mindmap will be rendered here -->
+                            </div>
+                            
+                            <!-- Mindmap Actions -->
+                            <div id="blog-mindmap-actions" class="mindmap-actions" style="display: none;">
+                                <button id="regenerate-blog-mindmap" class="btn btn-outline-primary">
+                                    <i class="bi bi-arrow-clockwise me-1"></i>
+                                    Regenerate
+                                </button>
+                                <button id="download-blog-mindmap" class="btn btn-outline-success">
+                                    <i class="bi bi-download me-1"></i>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quiz Tab -->
+                        <div id="blog-quiz-tab" class="tab-pane">
+                            <div class="quiz-container">
+                                <!-- Quiz Generation Section -->
+                                <div id="blog-quiz-generation" class="quiz-section">
+                                    <div class="quiz-header">
+                                        <h4><i class="bi bi-question-circle me-2"></i>Blog Quiz</h4>
+                                        <p>Test your understanding with questions based on the blog content</p>
+                                    </div>
+                                    
+                                    <div id="blog-quiz-no-content" class="no-transcript-message" style="display: none;">
+                                        <div class="alert alert-warning">
+                                            <i class="bi bi-exclamation-triangle me-2"></i>
+                                            <strong>No Content Available</strong>
+                                            <p class="mb-0 mt-2">Sorry, this blog doesn't have content available for quiz generation.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="blog-quiz-available" class="quiz-available" style="display: none;">
+                                        <button id="generate-blog-quiz" class="btn btn-primary quiz-btn">
+                                            <i class="bi bi-question-circle me-2"></i>
+                                            Generate Quiz
+                                            <span class="btn-loading d-none">
+                                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                Generating...
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Quiz Display Section -->
+                                <div id="blog-quiz-display" class="quiz-display" style="display: none;">
+                                    <div class="quiz-info">
+                                        <h5>Blog Quiz: 10 Questions</h5>
+                                        <p class="quiz-instructions">Select the best answer for each question. Your score will be calculated automatically.</p>
+                                    </div>
+                                    
+                                    <form id="blog-quiz-form" class="quiz-form">
+                                        <div id="blog-quiz-questions" class="quiz-questions">
+                                            <!-- Questions will be populated here -->
+                                        </div>
+                                        
+                                        <div class="quiz-actions">
+                                            <button type="submit" id="submit-blog-quiz" class="btn btn-success quiz-submit-btn">
+                                                <i class="bi bi-check-circle me-2"></i>
+                                                Submit Quiz
+                                            </button>
+                                            <button type="button" id="retake-blog-quiz" class="btn btn-outline-primary" style="display: none;">
+                                                <i class="bi bi-arrow-clockwise me-1"></i>
+                                                Retake Quiz
+                                            </button>
+                                            <button type="button" id="new-blog-quiz" class="btn btn-outline-secondary" style="display: none;">
+                                                <i class="bi bi-plus-circle me-1"></i>
+                                                New Quiz
+                                            </button>
+                                        </div>
+                                    </form>
+                                    
+                                    <!-- Quiz Results -->
+                                    <div id="blog-quiz-results" class="quiz-results" style="display: none;">
+                                        <div class="results-header">
+                                            <h5><i class="bi bi-trophy me-2"></i>Quiz Results</h5>
+                                        </div>
+                                        <div class="score-display">
+                                            <div class="score-circle">
+                                                <span id="blog-score-percentage">0%</span>
+                                                <small id="blog-score-fraction">0/10</small>
+                                            </div>
+                                            <div class="score-message">
+                                                <h6 id="blog-score-title">Great Job!</h6>
+                                                <p id="blog-score-description">You've completed the quiz.</p>
+                                            </div>
+                                        </div>
+                                        <div id="blog-detailed-results" class="detailed-results">
+                                            <!-- Detailed results will be shown here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div id="blog-footer" class="footer">
+                    <div class="footer-content">
+                        <span class="footer-single">
+                            <i class="bi bi-robot"></i>
+                            General AI Mode | Copyright © 2025 Abhit Pandey
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Container -->
+            <div id="blog-notification-container">
+                <div class="alert alert-dismissible fade show" role="alert">
+                    <span class="message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <button id="backButton" class="back-button">
+            <i class="bi bi-arrow-left"></i>
+        </button>
+
+        <!-- Settings Drawer -->
+        <div id="settings-drawer" class="settings-drawer enhanced">
+            <div class="settings-backdrop"></div>
+            <div class="settings-panel">
+                <div class="settings-header">
+                    <div class="settings-title-group">
+                        <div class="settings-icon">
+                            <i class="bi bi-gear-fill"></i>
+                        </div>
+                        <div class="settings-title-content">
+                            <h5 class="settings-title">Settings</h5>
+                            <p class="settings-subtitle">Configure your AI assistant</p>
+                        </div>
+                    </div>
+                    <button class="close-settings" title="Close Settings" aria-label="Close settings panel">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                
+                <div class="settings-content">
+                    <!-- API Configuration Section -->
+                    <div class="settings-group">
+                        <div class="group-header">
+                            <i class="bi bi-key-fill"></i>
+                            <h6>API Configuration</h6>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <label for="api-key" class="settings-label">
+                                <span class="label-text">
+                                    Google API Key
+                                    <span class="required-indicator">*</span>
+                                </span>
+                                <span class="label-status">
+                                    <i class="bi bi-shield-check text-success d-none" id="api-key-valid"></i>
+                                    <i class="bi bi-shield-x text-danger d-none" id="api-key-invalid"></i>
+                                </span>
+                            </label>
+                            <div class="input-group settings-input">
+                                <div class="input-prefix">
+                                    <i class="bi bi-key"></i>
+                                </div>
+                                <input type="password" id="api-key" class="form-control" placeholder="Enter your Gemini API Key" required>
+                                <button type="button" class="input-suffix toggle-password" title="Toggle visibility">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div class="help-text enhanced">
+                                <i class="bi bi-shield-lock me-1"></i>
+                                Your API key is stored locally and encrypted. Never shared with third parties.
+                                <a href="#" class="help-link">Get API Key</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Model Configuration Section -->
+                    <div class="settings-group">
+                        <div class="group-header">
+                            <i class="bi bi-cpu-fill"></i>
+                            <h6>Model Configuration</h6>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <label for="model-select" class="settings-label">
+                                <span class="label-text">AI Model</span>
+                                <span class="model-badge" id="model-badge">Recommended</span>
+                            </label>
+                            <select id="model-select" class="form-select enhanced">
+                                <option value="gemini-2.0-flash-lite" data-badge="Fast" data-description="Optimized for speed and efficiency">
+                                    Gemini Flash Lite
+                                </option>
+                                <option value="gemini-pro" data-badge="Advanced" data-description="Enhanced capabilities and accuracy">
+                                    Gemini Pro
+                                </option>
+                            </select>
+                            <div class="help-text enhanced">
+                                <i class="bi bi-info-circle me-1"></i>
+                                <span id="model-description">Optimized for speed and efficiency</span>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <label for="temperature" class="settings-label">
+                                <span class="label-text">Creativity Level</span>
+                                <span class="temp-indicator">
+                                    <span id="temp-value">0.2</span>
+                                    <span class="temp-label" id="temp-label">Focused</span>
+                                </span>
+                            </label>
+                            <div class="range-input-wrapper">
+                                <input type="range" id="temperature" class="form-range enhanced" min="0" max="1" step="0.1" value="0.2">
+                                <div class="range-labels">
+                                    <span>Precise</span>
+                                    <span>Balanced</span>
+                                    <span>Creative</span>
+                                </div>
+                            </div>
+                            <div class="help-text enhanced">
+                                <i class="bi bi-palette me-1"></i>
+                                Higher values make responses more creative but potentially less accurate.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Settings Section -->
+                    <div class="settings-group">
+                        <div class="group-header collapsible" data-toggle="advanced-settings">
+                            <i class="bi bi-sliders"></i>
+                            <h6>Advanced Settings</h6>
+                            <i class="bi bi-chevron-down toggle-icon"></i>
+                        </div>
+                        
+                        <div class="collapsible-content" id="advanced-settings">
+                            <div class="settings-section">
+                                <div class="setting-row">
+                                    <div class="setting-info">
+                                        <label class="setting-title">Auto-save conversations</label>
+                                        <span class="setting-desc">Automatically save chat history locally</span>
+                                    </div>
+                                    <div class="setting-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="auto-save" checked>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-row">
+                                    <div class="setting-info">
+                                        <label class="setting-title">Typing indicators</label>
+                                        <span class="setting-desc">Show when AI is processing</span>
+                                    </div>
+                                    <div class="setting-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="typing-indicators" checked>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-footer">
+                    <div class="settings-actions">
+                        <button id="reset-settings" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-clockwise me-2"></i>
+                            Reset
+                        </button>
+                        <button id="save-settings" class="btn btn-primary settings-save-btn">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Save Settings
+                        </button>
+                    </div>
+                    <div class="settings-info">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Settings are automatically saved locally
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="libs/bootstrap.bundle.min.js"></script>
+    <script src="sidepanel.js"></script>
+</body>
+</html> 

@@ -1,0 +1,12 @@
+flask
+flask-cors
+youtube-transcript-api
+yt-dlp
+pytube
+chromadb
+sentence-transformers
+google-generativeai
+langchain
+langchain-google-genai
+langchain-community
+crawl4ai
