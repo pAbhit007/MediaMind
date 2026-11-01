@@ -1,0 +1,11 @@
+{
+  "name": "mediamind",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "test": "npm test --workspaces --if-present",
+    "build": "npm run build -w apps/extension",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  }
+}

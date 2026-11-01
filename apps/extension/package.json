@@ -1,0 +1,41 @@
+{
+  "name": "extension",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "prebuild": "tsx scripts/fetch-model.ts",
+    "build": "wxt build",
+    "postinstall": "wxt prepare",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "test:browser": "node test/browser/smoke.mjs",
+    "icons": "tsx scripts/make-icons.ts"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^3.8.1",
+    "@mediamind/engine": "*",
+    "dexie": "^4.4.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@fontsource/caveat": "^5.1.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
+    "@types/chrome": "^0.0.280",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "@wxt-dev/module-react": "^1.1.0",
+    "fake-indexeddb": "^6.2.7",
+    "jsdom": "^25.0.0",
+    "playwright-core": "^1.64.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0",
+    "wxt": "^0.19.0"
+  }
+}

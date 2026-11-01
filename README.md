@@ -1,85 +1,90 @@
 # MediaMind
 
-### YouTube RAG Assistant Chrome Extension
+**Turn any YouTube video into searchable moments, chapters and notes — right in your browser.**
 
-A Chrome extension that adds an AI-powered question-answering assistant to YouTube videos using RAG (Retrieval-Augmented Generation) technology.
+Free forever · no account · no API key · nothing leaves your device.
 
-## Features
+<table>
+  <tr>
+    <td align="center"><img src="docs/images/welcome.png" width="230" alt="Welcome screen greeting in Tamil under a rangoli"><br><sub>Welcome — नमस्ते in 10 languages</sub></td>
+    <td align="center"><img src="docs/images/ask.png" width="230" alt="Ask tab showing the moments that answer 'What is backpropagation?'"><br><sub>Ask the video</sub></td>
+    <td align="center"><img src="docs/images/chapters.png" width="230" alt="Chapters tab as a grid of ruled index cards"><br><sub>Chapters as index cards</sub></td>
+    <td align="center"><img src="docs/images/notes.png" width="230" alt="Notes tab with timestamped sticky notes"><br><sub>Timestamped notes</sub></td>
+  </tr>
+</table>
 
-- Appears as a side panel on YouTube video pages
-- Processes video transcripts using Google's Gemini AI
-- Allows users to ask questions about video content
-- Provides contextual answers based on video content
-- Modern and user-friendly interface
+## What it does
 
-## Prerequisites
+MediaMind is a Chrome side panel for YouTube. Open a video, open the panel, and MediaMind reads the video's captions and builds a study kit for it on your machine:
 
-- Google API key with access to Gemini API
-- Python 3.8+ for the backend server
-- Chrome browser
+- **Ask** — type a question and get the 3 moments in the video that answer it, with your words highlighted. Click a moment to jump there, or save it as a note. Suggested questions to get you started.
+- **Chapters** — the creator's chapters, or auto-detected topics when there are none, shown as index cards with keywords. The chapter you're watching is taped down; watched chapters get a ✓. Key points for the current chapter underneath.
+- **Notes** — press **N** in the panel (or **Alt+N** anywhere on YouTube) to pause and pin a note to the current second. Highlight lines in the transcript. Export everything as Markdown for Notion or Obsidian.
+- **Transcript** — the full transcript, following the video as it plays. Click any line to jump.
+- **Streak** — a 🔥 daily streak for days you ask, take notes or highlight.
+- **Hindi and other languages** — the panel shows the original text; search uses YouTube's English translation behind the scenes.
 
-## Setup
+Flashcards and a mind map are on the way (the **Cards** and **Map** tabs).
 
-### Backend Setup
+## How it works — no LLM, no server
 
-1. Install the required Python packages:
-   ```bash
-   pip install flask flask-cors google-generativeai langchain-google-genai
-   ```
+Most video-summary extensions send your transcript to a paid AI service. MediaMind doesn't:
 
-2. Start the backend server:
-   ```bash
-   python backend.py
-   ```
+1. **Captions** come from YouTube's own player on the page you're already watching.
+2. **Text processing** (pure TypeScript) splits the transcript into 25–40 s pieces, finds keywords, and detects chapter boundaries.
+3. **Search** combines classic keyword ranking (BM25) with a small embedding model, [all-MiniLM-L6-v2](https://huggingface.co/Xenova/all-MiniLM-L6-v2) (~23 MB), that runs **inside the extension** via transformers.js. It's bundled — nothing is downloaded at runtime.
+4. **Storage** is IndexedDB in your browser. No account, no sync, no analytics.
 
-### Extension Setup
+The only network traffic is to `youtube.com`, which you're already on.
 
-1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable "Developer mode" in the top right
-3. Click "Load unpacked" and select the `chrome_plugin` directory
-4. Click the extension icon to open the side panel
-5. Enter your Google API key in the settings
+## Install (developer build)
 
-## Usage
+Requires Node 20+ and Chrome.
 
-1. Navigate to any YouTube video
-2. Click the extension icon to open the side panel
-3. The video title will automatically appear in the panel
-4. Click "Process Video" to analyze the video content
-5. Once processing is complete, you can start asking questions
-6. Type your question and click "Send" or press Enter
-7. The AI will provide contextual answers based on the video content
+```bash
+git clone https://github.com/pAbhit007/MediaMind.git
+cd MediaMind
+npm install
+npm run build -w apps/extension   # first build downloads the model files once (~35 MB)
+```
+
+Then in Chrome:
+
+1. Go to `chrome://extensions` and turn on **Developer mode**.
+2. Click **Load unpacked** and choose `apps/extension/.output/chrome-mv3`
+   (on macOS press **⌘ + Shift + G** in the picker and paste the path — the `.output` folder is hidden).
+3. Pin MediaMind, open a YouTube video, and click the icon.
 
 ## Development
 
-The extension consists of:
-- Frontend: HTML, CSS, and JavaScript for the Chrome extension UI
-- Backend: Flask server that interfaces with the RAG pipeline
-- RAG Pipeline: Python implementation using Gemini and LangChain
+```bash
+npm test --workspaces --if-present        # engine + extension tests
+npm run typecheck --workspaces --if-present
+npm run build -w apps/extension
+npm run test:browser -w apps/extension    # real-Chromium check: model loads, no outside network requests
+```
 
-## Files
+```
+packages/engine/     pure TypeScript: captions, segmentation, keywords, BM25, search, chapters, pipeline
+apps/extension/      WXT + React MV3 extension
+  src/youtube/       everything YouTube-specific (caption capture, player control)
+  src/worker/        on-device embedding + search in a Web Worker
+  src/db/            IndexedDB storage, streak
+  src/features/      welcome, ask, chapters, notes, transcript
+docs/superpowers/    design spec and implementation plan
+```
 
-- `manifest.json`: Extension configuration
-- `sidepanel.html`: Main UI template
-- `styles.css`: UI styling
-- `sidepanel.js`: Frontend logic
-- `content.js`: YouTube page interaction
-- `background.js`: Extension background processes
-- `backend.py`: Flask server implementation
+## Roadmap
 
-## Notes
+| Wave | |
+|---|---|
+| **1 · Foundation** | ✅ Ask, Chapters, Notes, Transcript, streak, welcome |
+| 2 · Learning loop | Flashcards with spaced repetition, Today screen, weekly recap, study timer |
+| 3 · Visual & sharing | Mind map, quote cards, read mode, glossary, quiz me |
+| 4 · YouTube helpers | Focus mode, skip sponsors |
+| 5 · Website | Landing page, library, search across all your videos, playlists as courses |
+| 6 · Expansion | Hindi & regional-language UI, sites beyond YouTube |
 
-- The extension requires an active backend server running on `localhost:5000`
-- API keys are stored securely in Chrome's local storage
-- Video processing may take a few moments depending on length
-- The extension works best with videos that have good quality transcripts 
+---
 
-
-
-
-
-
-
-
-https://github.com/user-attachments/assets/142f3fa5-f94f-466f-a0d3-a6da570243d0
-
+<sub>Screenshots are from the built extension on a 3Blue1Brown lecture.</sub>

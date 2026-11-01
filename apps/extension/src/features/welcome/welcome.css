@@ -1,0 +1,321 @@
+/* Ported from full-design-v1.html (.ob, .torans, .mandala, .hello, .cont). */
+.wl {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 38%, #fff8ea 0, #faf1de 45%, #f3e4c6 100%);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.wl-toran {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 26px;
+  display: flex;
+  justify-content: space-around;
+}
+.wl-toran i {
+  width: 14px;
+  height: 22px;
+  background: var(--marigold);
+  border-radius: 0 0 50% 50%;
+  display: block;
+  box-shadow: 0 6px 0 -2px #e8590c;
+}
+.wl-toran i:nth-child(even) {
+  background: #e8590c;
+  box-shadow: 0 6px 0 -2px var(--marigold);
+  height: 16px;
+}
+.wl-skip {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  right: 14px;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--soft);
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+.wl-skip:hover {
+  text-decoration: underline;
+}
+.wl-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 70px 0 24px;
+}
+.wl-rangoli {
+  width: 190px;
+  height: 190px;
+  margin: 0 auto;
+  position: relative;
+  flex: none;
+  animation: wl-spin 40s linear infinite;
+}
+.wl-petal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34px;
+  height: 84px;
+  margin: -84px 0 0 -17px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  transform-origin: 50% 100%;
+  border: 1.5px solid var(--rust);
+  background: rgba(242, 165, 22, 0.12);
+}
+.wl-petal.is-in {
+  width: 22px;
+  height: 48px;
+  margin: -48px 0 0 -11px;
+  border-color: var(--kumkum);
+  background: rgba(168, 50, 62, 0.08);
+}
+.wl-ctr {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border-radius: 50%;
+  background: var(--marigold);
+  box-shadow: 0 0 0 5px #fff3dc, 0 0 0 7px var(--rust);
+}
+@keyframes wl-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.wl-hello {
+  position: relative;
+  height: 64px;
+  margin-top: 22px;
+  text-align: center;
+}
+.wl-g {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.wl-g b {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.wl-g small {
+  font-family: var(--sans);
+  /* small caps of a 13px face ≈ the mockup's 11px capitals */
+  font-size: 13px;
+  color: var(--soft);
+  letter-spacing: 0.05em;
+  font-variant-caps: all-small-caps;
+}
+.wl-g.is-in {
+  animation: wl-in 0.24s ease-out both;
+}
+.wl-g.is-out {
+  animation: wl-out 0.24s ease-in both;
+}
+@keyframes wl-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes wl-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+.wl-tag {
+  text-align: center;
+  font-size: 15px;
+  margin: 14px 28px 0;
+  color: #4a4035;
+}
+.wl-tag2 {
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--soft);
+  margin-top: 6px;
+}
+.wl-cont {
+  position: relative;
+  flex: none;
+  margin: 0 24px 26px;
+  height: 42px;
+  border: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #e7dcc6;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+  color: #9b8f7c;
+}
+.wl-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: wl-fill 2.5s ease-out forwards;
+}
+.wl-cont-txt {
+  position: relative;
+}
+.wl-cont.is-ready {
+  cursor: pointer;
+}
+.wl-cont.is-ready .wl-fill {
+  transform: scaleX(1);
+}
+.wl-cont.is-ready .wl-cont-txt {
+  color: var(--paper);
+}
+.wl-cont.is-ready:hover .wl-fill {
+  background: #3d362e;
+}
+.wl-skip:focus-visible,
+.wl-cont:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+@keyframes wl-fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Reduced motion: no spin, crossfade instead of slide, Continue already full (JS enables it). */
+@media (prefers-reduced-motion: reduce) {
+  .wl-rangoli {
+    animation: none;
+  }
+  .wl-g.is-in {
+    animation: wl-fade-in 0.3s linear both;
+  }
+  .wl-g.is-out {
+    animation: wl-fade-out 0.3s linear both;
+  }
+  .wl-fill {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+@keyframes wl-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes wl-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ---------- setup (full-design-v1 "Quick setup") ---------- */
+.st-q {
+  font-size: 17px;
+  margin-top: 6px;
+}
+.st-opt {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  width: 100%;
+  text-align: left;
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #ece3d3;
+  cursor: pointer;
+  font-family: var(--serif);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.st-opt:hover {
+  border-color: var(--amber);
+}
+.st-opt[aria-pressed='true'] {
+  border: 2px solid var(--amber);
+  padding: 8px 10px;
+}
+.st-opt small {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--soft);
+}
+.st-chips {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.st-chip {
+  font-family: var(--sans);
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--amberbg);
+  color: #6b5434;
+  cursor: pointer;
+}
+.st-chip[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--paper);
+}
+.st-hint {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--soft);
+}
+.st-back {
+  align-self: flex-start;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--soft);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.st-btn {
+  font-family: var(--sans);
+  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  cursor: pointer;
+}
+.st-opt:focus-visible,
+.st-chip:focus-visible,
+.st-back:focus-visible,
+.st-btn:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
